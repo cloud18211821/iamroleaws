@@ -15,6 +15,6 @@ jobs:
 
       - name: Create S3 Bucket
         run: |
-          aws s3api create-bucket --bucket s3bucketgithubusingIAM --region us-east-1
+          aws s3api create-bucket --bucket s3bucketgithubusingaws123 --region us-east-1
         env:
           AWS_IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
