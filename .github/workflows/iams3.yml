@@ -17,4 +17,4 @@ jobs:
         run: |
           aws s3api create-bucket --bucket s3bucketgithubusingaws123 --region us-east-1
         env:
-          AWS_IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
+          IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
