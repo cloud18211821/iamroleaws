@@ -13,15 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Create S3 Bucket
-        run: |
-          aws s3api create-bucket --bucket s3bucketgithubusingaws123 --region us-east-1
-        env:
-          IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
+      - name: Assume IAM Role
+        run: aws sts assume-role --role-arn ${{ secrets.AWS_IAM_ROLE }} --role-session-name GitHubSession > assumed-role.json
 
-      - name: Debug Info
+      - name: Set Environment Variables
         run: |
-          echo "AWS_IAM_ROLE: $AWS_IAM_ROLE"
-          aws sts get-caller-identity
-        env:
-          AWS_IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
+          export AWS_ACCESS_KEY_ID=$(jq -r '.Credentials.AccessKeyId' assumed-role.json)
+          export AWS_SECRET_ACCESS_KEY=$(jq -r '.Credentials.SecretAccessKey' assumed-role.json)
+          export AWS_SESSION_TOKEN=$(jq -r '.Credentials.SessionToken' assumed-role.json)
+
+      - name: Create S3 Bucket
+        run: aws s3api create-bucket --bucket s3bucketgithubusingaws123 --region us-east-1
