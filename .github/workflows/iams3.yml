@@ -1,0 +1,20 @@
+name: Create S3 Bucket
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-s3-bucket:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create S3 Bucket
+        run: |
+          aws s3api create-bucket --bucket s3bucketgithubusingIAM --region us-east-1
+        env:
+          AWS_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE }}
