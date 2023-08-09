@@ -18,3 +18,10 @@ jobs:
           aws s3api create-bucket --bucket s3bucketgithubusingaws123 --region us-east-1
         env:
           IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
+
+      - name: Debug Info
+        run: |
+          echo "AWS_IAM_ROLE: $AWS_IAM_ROLE"
+          aws sts get-caller-identity
+        env:
+          AWS_IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
